@@ -12,17 +12,14 @@ df = pd.read_csv(os.path.join('inputs','mean_rAUC_per_variables_and_models.tsv')
 Iterate one by one
 """
 
-color_palette = ['#5FCAAA','#77A1CD','#FF8964']
+color_palette = ['#5FCAAA','#FF8964','#77A1CD']
 
 for var in ['Atrophy_36m','Fibrosis_36m','Atrophy|Fibrosis_36m']:
 
     # creating subplots
     ax = plt.subplots()
- 
-    ax = sns.barplot(data=df[df['experiment'] == 'Atrophy_36m'], x="Variables", y="rAUROC", ci=None, color= color_palette[0])
-    ax = sns.barplot(data=df[df['experiment'] == 'Fibrosis_36m'], x="Variables", y="rAUROC", ci=None, color= color_palette[1])
-    ax = sns.barplot(data=df[df['experiment'] == 'Atrophy|Fibrosis_36m'], x="Variables", y="rAUROC", ci=None, color= color_palette[2])
-
+    ax = sns.barplot(data=df[df['experiment'] == var], x="Variables", y="rAUROC", hue= 'Method', palette=color_palette)
+    
     ax.set_yticklabels(labels=[-0.025, 0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14])
     plt.yticks([-0.025, 0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14])
     plt.savefig(os.path.join('figures','figure2',f"{var.replace('|','_')}_mean_rAUC_per_group_of_features.pdf"))  
